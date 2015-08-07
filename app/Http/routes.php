@@ -12,6 +12,8 @@
 */
 
 
+//php artisan route:list
+
 Route::get('admin', function () {
     return view('default');
 });
@@ -19,24 +21,7 @@ Route::get('admin', function () {
 
 Route::group(array('prefix' => 'admin'), function () {
 
-	# Post Management
-	Route::group(array('prefix' => 'posts'), function () {
-		
-		Route::get('/', array('as' => 'posts', 'uses' => 'PostsController@index'));
-	    
-	    Route::get('create', array('as' => 'create/post', 'uses' => 'PostsController@create'));
-	    Route::post('create', 'Controllers\PostsController@postCreate');
-	    
-	    Route::get('{blogId}/edit', array('as' => 'update/post', 'uses' => 'PostsController@getEdit'));
-	    Route::post('{blogId}/edit', 'PostsController@postEdit');
-	   
-	    Route::get('{blogId}/delete', array('as' => 'delete/post', 'uses' => 'PostsController@getDelete'));
-	    Route::get('{blogId}/confirm-delete', array('as' => 'confirm-delete/post', 'uses' => 'Controllers\Admin\PostsController@getModalDelete'));
-	    Route::get('{blogId}/restore', array('as' => 'restore/post', 'uses' => 'PostsController@getRestore'));
-	});
-
-    # Dashboard
-    Route::get('/', array('as' => 'admin', 'uses' => 'DashboardController@getIndex'));
+	Route::resource('posts', 'PostsController');
 
 });
 
