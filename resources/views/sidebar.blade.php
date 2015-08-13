@@ -7,40 +7,50 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset("/bower_components/admin-lte/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image" />
+                <img src="{!! Sentinel::getUser()->gravatar !!}" class="img-circle" alt="User Image" height="160" width="160" />
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>Hello {{ Sentinel::getUser()->last_name }}  </p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <!--<a href="#"><i class="fa fa-circle text-success"></i> Online</a>-->
             </div>
         </div>
 
-        <!-- search form (Optional) -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-<span class="input-group-btn">
-  <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-</span>
-            </div>
-        </form>
-        <!-- /.search form -->
+
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">HEADER</li>
+            <li class="header">MANAGE</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><span>Link</span></a></li>
-            <li><a href="#"><span>Another Link</span></a></li>
+            <!--<li class="{{ set_active('/') }}"><a href="{{ url('/') }}">Home</a></li>-->
+            
+            <li class="{{ set_active('manage/posts') }}"><a href="{{ url('manage/posts') }}"><i class="fa fa-home"></i> Home</a></li>   
+                        
+            <li class="{{ set_active('manage/posts/create') }}"><a href="{{ url('manage/posts/create') }}"><i class="fa fa-plus"></i> Add Media Mention</a></li>  
+            
+                  
+            
+            <!--<li class="{{ set_active('userProtected') }}"><a href="{{ url('userProtected') }}">Registered Users Only</a></li>-->
+            
+            
+                       
+			@if(Sentinel::getUser()->hasAccess('admin'))
             <li class="treeview">
-                <a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><span>Reports</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Report 1</a></li>
+                    <li><a href="#">Report 2</a></li>
                 </ul>
             </li>
+            @endif
+            
         </ul><!-- /.sidebar-menu -->
+        
+
+                      
+
+        
+
     </section>
     <!-- /.sidebar -->
 </aside>

@@ -10,7 +10,7 @@ class Post extends Model
     //
     protected $table = 'posts';
     
-    //protected $dates = ['publish_date'];
+    //https://laracasts.com/discuss/channels/general-discussion/form-model-binding-date-carbon
     
 	function getPublishDateAttribute($attr)
 	{

@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
         
         //call uses table seeder class
         $this->call('DepartmentTableSeeder');
-        //this message shown in your terminal after running db:seed command
-        $this->command->info("Departments table seeded");
-        
-        $this->call('SourceTableSeeder');
-        $this->command->info("Sources table seeded");
-        
+		$this->call('SourceTableSeeder');
         $this->call('ProjectTableSeeder');
+        
+        $this->call(SentinelRoleSeeder::class);
+        $this->call(SentinelUserSeeder::class);
+        $this->call(SentinelUserRoleSeeder::class);
+        
         $this->command->info("Projects table seeded");        
 
         Model::reguard();

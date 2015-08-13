@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests;
+use App\Http\Requests\PostsFormRequest;
 use Illuminate\Http\Request;
 
 use App\Post;
@@ -9,7 +12,10 @@ use App\Department;
 use App\Project;
 use App\Source;
 
-use App\Http\Requests;
+use Sentinel;
+
+
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Form;
@@ -17,6 +23,14 @@ use View;
 
 class PostsController extends Controller
 {
+    
+    protected $post;
+      public function __construct(Post $post)
+      {
+          $this->post = $post;
+      }
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +39,12 @@ class PostsController extends Controller
     public function index()
     {
         //
-        return view('forms.create');
+               
+        $posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
+        
+        
+        
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -41,7 +60,7 @@ class PostsController extends Controller
         $project_options = Project::lists('name', 'id');
         $source_options = Source::lists('name', 'id');
         // Show the page
-        return view('forms.create', compact('department_options','project_options','source_options'));
+        return view('posts.forms.create', compact('department_options','project_options','source_options'));
     }
 
     /**
@@ -50,7 +69,7 @@ class PostsController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(PostsFormRequest $request)
     {
         //
         $post = new Post;
@@ -96,7 +115,7 @@ class PostsController extends Controller
             Input::file('attachment')->move($destinationPath, $attachment);
         }
         
-        return \Redirect::route('admin.posts.edit', array($post->id))
+        return \Redirect::route('manage.posts.index', array($post->id))
             ->with('message', 'Your post has been created!');
     }
 
@@ -132,7 +151,7 @@ class PostsController extends Controller
         $source_id = $post->source_id;
         
         // Show the page        
-        return view('forms.edit',compact('post','department_options','department_id','project_options','project_id','source_options','source_id'));
+        return view('posts.forms.edit',compact('post','department_options','department_id','project_options','project_id','source_options','source_id'));
     }
 
     /**
@@ -142,7 +161,7 @@ class PostsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(PostsFormRequest $request, $id)
     {
         //
         $post = Post::findOrFail($id);
@@ -192,7 +211,7 @@ class PostsController extends Controller
 	        Input::file('attachment')->move($destinationPath, $attachment);
 	    }
 	    
-	    return \Redirect::route('admin.posts.edit', array($post->id))
+	    return \Redirect::route('manage.posts.index', array($post->id))
 	        ->with('message', 'Your post has been updated!');     
     }
 
