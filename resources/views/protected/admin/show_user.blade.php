@@ -1,4 +1,4 @@
-@extends('protected.admin.master')
+@extends('default')
 
 @section('title', 'View Profile')
 

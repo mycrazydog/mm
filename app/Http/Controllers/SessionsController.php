@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginFormRequest;
 use Sentinel;
+use Redirect;
 
 class SessionsController extends Controller
 {
@@ -52,11 +53,15 @@ class SessionsController extends Controller
         $admin = Sentinel::findRoleByName('Admins');
         $users = Sentinel::findRoleByName('Users');
 
+        /* Send to two different spots based on Role
         if ($user->inRole($admin)) {
             return redirect()->intended('admin');
         } elseif ($user->inRole($users)) {
             return redirect()->intended('/');
         }
+        */
+        return redirect()->intended('/manage/posts');       
+        
     }
 
     /**

@@ -10,7 +10,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default login-box">
                     <div class="login-logo">
-                      <a href="../../index2.html"><b>Admin</b>LTE</a>
+                      <a href="../../index2.html"><b>MEDIA</b>MENTIONS</a>
                     </div><!-- /.login-logo -->
                     
                     <div class="panel-heading">

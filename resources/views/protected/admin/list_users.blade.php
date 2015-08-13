@@ -1,4 +1,4 @@
-@extends('protected.admin.master')
+@extends('default')
 
 @section('title', 'List Users')
 
@@ -20,7 +20,7 @@
             @foreach ($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td><a href="profiles/{{ $user->id }}">{{ $user->email }}</a> <br>
+                <td><a href="profiles/{{ $user->id }}">{{ $user->email }}</a> 
                 @if ($user->inRole($admin))
                 <span class="label label-success">{{ 'Admin' }}</span>
                 @endif

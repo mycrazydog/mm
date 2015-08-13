@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'manage'], function() {
 
 
 Route::get('/', ['as' => 'home', 'uses' => 'PagesController@getHome']);
-Route::get('about', ['as' => 'about', 'uses' => 'PagesController@getAbout']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@getContact']);
+//Route::get('about', ['as' => 'about', 'uses' => 'PagesController@getAbout']);
+//Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@getContact']);
 
 

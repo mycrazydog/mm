@@ -39,10 +39,17 @@ class PostsController extends Controller
     public function index()
     {
         //
-               
-        $posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
         
         
+        if(Sentinel::getUser()->inRole('admins')) {      
+        	$posts = $this->post->orderBy('created_at', 'DESC')->paginate(10); 
+        }else{        
+	        $user = Sentinel::getUser()->id;
+	        $posts = $this->post->where('user_id', $user)->orderBy('created_at', 'DESC')->paginate(10);
+        }
+       
+        
+         
         
         return view('posts.index', compact('posts'));
     }
@@ -74,6 +81,7 @@ class PostsController extends Controller
         //
         $post = new Post;
         //$post -> user_id = Auth::id();
+        $post -> user_id = Sentinel::getUser()->id;
         $post -> headline = $request->headline;
         $post -> media_mention = (\Input::get('media_mention') == 1) ? 1 : 0;
         $post -> presentation = (\Input::get('presentation') == 1) ? 1 : 0;
@@ -166,6 +174,7 @@ class PostsController extends Controller
         //
         $post = Post::findOrFail($id);
 	    //$post -> user_id = Auth::id();
+	    $post -> user_id = Sentinel::getUser()->id;
 	    $post -> headline = $request->headline;
 	    $post -> media_mention = (\Input::get('media_mention') == 1) ? 1 : 0;
 	    

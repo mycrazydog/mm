@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Sentinel;
+use Redirect;
 
 class SentinelRedirectIfAuthenticated
 {
@@ -36,7 +37,10 @@ class SentinelRedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if (Sentinel::check()) {
-            return redirect('/');
+            // Note to self: this is called right after login
+            //return redirect('/');
+            return Redirect::route('manage.posts.index');
+            
         }
 
         return $next($request);

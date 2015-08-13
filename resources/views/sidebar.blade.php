@@ -34,9 +34,12 @@
             
             
                        
-			@if(Sentinel::getUser()->hasAccess('admin'))
+			@if(Sentinel::getUser()->inRole('admins'))
+			
+			<li class="{{ set_active_admin('admin/profiles') }}"><a href="/admin/profiles"><i class="fa fa-users"></i> List Users</a></li>
+			
             <li class="treeview">
-                <a href="#"><span>Reports</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><span><i class="fa fa-book"></i> Reports<br/><small>coming soon</small></span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Report 1</a></li>
                     <li><a href="#">Report 2</a></li>

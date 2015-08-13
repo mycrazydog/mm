@@ -43,7 +43,7 @@
                         <li class="user-footer">
                         	  @if (Sentinel::check())
                             <div class="pull-left">
-                                <a href="{!! url('profiles') !!}/{!! Sentinel::getUser()->id !!}" class="btn btn-default btn-flat">Profile</a>
+                                <a href="/admin/profiles/{!! Sentinel::getUser()->id !!}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{ url('logout') }}" class="btn btn-default btn-flat">Sign out</a>
