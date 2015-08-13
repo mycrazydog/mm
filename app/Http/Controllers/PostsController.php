@@ -79,9 +79,11 @@ class PostsController extends Controller
     public function store(PostsFormRequest $request)
     {
         //
+        $user = Sentinel::getUser()->id;
+        
         $post = new Post;
         //$post -> user_id = Auth::id();
-        $post -> user_id = Sentinel::getUser()->id;
+        $post -> user_id = $user;
         $post -> headline = $request->headline;
         $post -> media_mention = (\Input::get('media_mention') == 1) ? 1 : 0;
         $post -> presentation = (\Input::get('presentation') == 1) ? 1 : 0;
@@ -107,21 +109,38 @@ class PostsController extends Controller
         $post -> notes = $request->notes;
         $post -> url = $request->url;
     
-        $attachment = "";
-        if(Input::hasFile('attachment'))
-        {
-            $file = Input::file('attachment');
-            $filename = $file->getClientOriginalName();
-            $extension = $file -> getClientOriginalExtension();
-            $picture = sha1($filename . time()) . '.' . $extension;
-        }
-        $post -> attachment = $attachment;
+		if ($request->file('attachment')) {
+			$file = $request->file('attachment');
+			$filename = $file->getClientOriginalName();
+			$extension = $file -> getClientOriginalExtension();
+			$name = $user . '-' . time() . '-' . str_slug($filename, "-") . '.' .$extension;			
+			//$file = $file->move('/var/www/vhosts/lgscharlotte.org/private/uploads/', $name);
+			$file = $file->move(public_path() . '/resources/', $name);		
+			$post->attachment = $name;
+		}	
+	
+        
+        
+        
+//        $attachment = "";
+//        if(Input::hasFile('attachment'))
+//        {
+//            $file = Input::file('attachment');
+//            $filename = $file->getClientOriginalName();
+//            $extension = $file -> getClientOriginalExtension();
+//            $picture = sha1($filename . time()) . '.' . $extension;
+//        }
+//        $post -> attachment = $attachment;
+        
+        
         $post -> save();
-        if(Input::hasFile('attachment'))
-        {
-            $destinationPath = public_path() . '/images/news/'.$post->id.'/';
-            Input::file('attachment')->move($destinationPath, $attachment);
-        }
+        
+//        // Move the files
+//        if(Input::hasFile('attachment'))
+//        {
+//            $destinationPath = public_path() . '/resources/'.$post->id.'/';
+//            Input::file('attachment')->move($destinationPath, $attachment);
+//        }
         
         return \Redirect::route('manage.posts.index', array($post->id))
             ->with('message', 'Your post has been created!');
@@ -171,10 +190,13 @@ class PostsController extends Controller
      */
     public function update(PostsFormRequest $request, $id)
     {
+        
+        $user = Sentinel::getUser()->id;
+        
         //
         $post = Post::findOrFail($id);
 	    //$post -> user_id = Auth::id();
-	    $post -> user_id = Sentinel::getUser()->id;
+	    $post -> user_id = $user;
 	    $post -> headline = $request->headline;
 	    $post -> media_mention = (\Input::get('media_mention') == 1) ? 1 : 0;
 	    
@@ -204,21 +226,33 @@ class PostsController extends Controller
 	    $post -> notes = $request->notes;
 	    $post -> url = $request->url;
 	
-	    $attachment = "";
-	    if(Input::hasFile('attachment'))
-	    {
-	        $file = Input::file('attachment');
-	        $filename = $file->getClientOriginalName();
-	        $extension = $file -> getClientOriginalExtension();
-	        $picture = sha1($filename . time()) . '.' . $extension;
-	    }
-	    $post -> attachment = $attachment;
+//	    $attachment = "";
+//	    if(Input::hasFile('attachment'))
+//	    {
+//	        $file = Input::file('attachment');
+//	        $filename = $file->getClientOriginalName();
+//	        $extension = $file -> getClientOriginalExtension();
+//	        $picture = sha1($filename . time()) . '.' . $extension;
+//	    }
+//	    $post -> attachment = $attachment;
+
+		if ($request->file('attachment')) {
+			$file = $request->file('attachment');
+			$filename = $file->getClientOriginalName();
+			$extension = $file -> getClientOriginalExtension();
+			$name = $user . '-' . time() . '-' . str_slug($filename, "-") . '.' .$extension;			
+			//$file = $file->move('/var/www/vhosts/lgscharlotte.org/private/uploads/', $name);
+			$file = $file->move(public_path() . '/resources/', $name);		
+			$post->attachment = $name;
+		}		
+
+
 	    $post -> save();
-	    if(Input::hasFile('attachment'))
-	    {
-	        $destinationPath = public_path() . '/images/news/'.$post->id.'/';
-	        Input::file('attachment')->move($destinationPath, $attachment);
-	    }
+//	    if(Input::hasFile('attachment'))
+//	    {
+//	        $destinationPath = public_path() . '/resources/'.$post->id.'/';
+//	        Input::file('attachment')->move($destinationPath, $attachment);
+//	    }
 	    
 	    return \Redirect::route('manage.posts.index', array($post->id))
 	        ->with('message', 'Your post has been updated!');     

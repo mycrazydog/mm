@@ -140,6 +140,17 @@
 <br/>
 
 <div class="form-group">
+	<?php	
+	if (isset($post->attachment)) {	
+		if (($post->attachment != '')){
+			echo "<div class='callout callout-info'><h4>Previously uploaded file:</h4><p><a class='btn btn-block btn-primary btn-lg' href='/resources/". $post->attachment."'><i class='fa fa-book'></i> ".$post->attachment."</a></p></div>";	
+		}
+	}			
+	?>
+
+
+
+
   <label for="exampleInputFile">Attach File</label>
   <p>{!! Form::file('attachment') !!}</p>
   <?php
@@ -150,7 +161,7 @@
   }
   ?>
   
-  <p class="help-block">(Allowed file formats: PDF, DOC, DOCX, JPG, PNG, GIF)</p>
+  <p class="help-block">(Allowed file formats: PDF, DOC, DOCX, JPG, PNG, GIF, PPT)</p>
 </div>
 
 
