@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-
 class Post extends Model
 {
     //
@@ -34,6 +32,16 @@ class Post extends Model
 	    //$user_id = $this->user_id;	    
 	    //$user_email = User::findOrFail($user_id);    
 	    //return $user_email;
+	}
+	
+	
+	/**
+	 * Get the staffs for the post
+	 */
+	public function staffs(){
+		
+		return $this->belongsToMany('App\Staff');
+		
 	}
        
 }

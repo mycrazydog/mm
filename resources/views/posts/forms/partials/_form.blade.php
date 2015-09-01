@@ -7,6 +7,9 @@
 
 <div class="form-group">
   {!! Form::label('headline', 'Headline') !!} 
+  
+  <a data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Please enter the headline of the article or the topic of your presentation or meeting."><span class="badge bg-blue"><i class="fa fa-info"></i></span></a>
+  
   {!! Form::text('headline', null, ['class' => 'form-control input-lg']) !!}
   {!! errors_for('headline', $errors) !!}  
 </div>
@@ -113,22 +116,30 @@
 
 
 <div class="form-group">
-  {!! Form::label('writer_collaborator', 'Writer/Collaborator') !!}
+  {!! Form::label('writer_collaborator', 'Writer/Collaborator') !!} <a data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Please enter the name of the article writer or the person our staff collaborated with."><span class="badge bg-blue"><i class="fa fa-info"></i></span></a>
   {!! Form::text('writer_collaborator', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
-  {!! Form::label('department_id', 'Department/College/Unit') !!}
-  {!! Form::select('department_id', $department_options, Input::old('department_id'), ['class' => 'form-control select2', 'placeholder' => 'Please select a client']) !!}
+	<script type="text/javascript">
+	var selectedValues = [];
+	@if(isset($staff_selected))
+	   var selectedValues = {!! $staff_selected !!};    
+	@endif
+	</script>
+	
+
+  {!! Form::label('staff_list', 'Institute Staff Involved') !!}
+  {!! Form::select('staff_list[]', $staff_options, null, ['class' => 'form-control multi', 'multiple' => 'multiple']) !!}
 </div><!-- /.form-group -->
 
 <div class="form-group">
-  {!! Form::label('project_id', 'Project') !!}
-  {!! Form::select('project_id', $project_options, Input::old('project_id'), ['class' => 'form-control select2', 'placeholder' => 'Please select a client']) !!}
+  {!! Form::label('department_id', 'Organization/Department') !!}
+  {!! Form::select('department_id', $department_options, Input::old('department_id'), ['class' => 'form-control select2', 'placeholder' => 'Please select a organization/department']) !!}
 </div><!-- /.form-group -->
 
 <div class="form-group">
-  {!! Form::label('notes', 'Notes') !!}  
+  {!! Form::label('notes', 'Summary/Notes') !!}  
   {!! Form::textarea('notes', null, ['class' => 'form-control']) !!}
 </div>
 

@@ -38,6 +38,14 @@
 			
 			<li class="{{ set_active_admin('admin/profiles') }}"><a href="/admin/profiles"><i class="fa fa-users"></i> List Users</a></li>
 			
+			<li class="treeview {{ set_active('manage/departments') }} {{ set_active('manage/sources') }}">
+			    <a href="#"><span><i class="fa fa-book"></i> Manage Options<br/></span> <i class="fa fa-angle-left pull-right"></i></a>
+			    <ul class="treeview-menu">
+			        <li class="{{ set_active('manage/departments') }}"><a href="{{ url('manage/departments') }}">Organizations/Departments</a></li>
+			        <li class="{{ set_active('manage/sources') }}"><a href="{{ url('manage/sources') }}">Sources</a></li>
+			    </ul>
+			</li>
+			
             <li class="treeview">
                 <a href="#"><span><i class="fa fa-book"></i> Reports<br/><small>coming soon</small></span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

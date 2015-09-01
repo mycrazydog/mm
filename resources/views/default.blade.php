@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ $page_title or "AdminLTE Dashboard" }}</title>
+    <title>{{ $page_title or "UNC Charlotte Urban Institute" }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="{{ asset("/bower_components/admin-lte/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
@@ -36,6 +36,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
+    
+    <link href="{{ asset ("/bower_components/admin-lte/custom.css") }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -117,8 +119,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Page script -->
 <script type="text/javascript">
   $(function () {
+  
+  	$('[data-toggle="popover"]').popover()
     //Initialize Select2 Elements
     $(".select2").select2();
+    
+    if ($(".multi").length > 0){
+    	//console.log(selectedValues);
+    	$(".multi").select2().select2('val', selectedValues)
+    }
 
     //Datemask dd/mm/yyyy
     $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
@@ -177,6 +186,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $(".timepicker").timepicker({
       showInputs: false
     });
+    
+    
+	  $('.formConfirm').on('click', function(e) {
+	        e.preventDefault();
+	        var el = $(this).parent();
+	        var title = el.attr('data-title');
+	        var msg = el.attr('data-message');
+	        var dataForm = el.attr('data-form');
+	        
+	        $('#formConfirm')
+	        .find('#frm_body').html(msg)
+	        .end().find('#frm_title').html(title)
+	        .end().modal('show');
+	        
+	        $('#formConfirm').find('#frm_submit').attr('data-form', dataForm);
+	  });
+	
+	  $('#formConfirm').on('click', '#frm_submit', function(e) {
+	        var id = $(this).attr('data-form');
+	        $(id).submit();
+	  });
+	    
+    
+    
   });
 </script>
 

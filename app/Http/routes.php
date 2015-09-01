@@ -83,6 +83,8 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
 # Authenticated Routes
 Route::group(['middleware' => ['auth'], 'prefix' => 'manage'], function() {
     Route::resource('posts', 'PostsController');
+    Route::resource('departments', 'DepartmentsController');
+    Route::resource('sources', 'SourcesController');
 });
 
 

@@ -11,6 +11,7 @@ use App\Post;
 use App\Department;
 use App\Project;
 use App\Source;
+use App\Staff;
 
 use Sentinel;
 
@@ -20,6 +21,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Form;
 use View;
+use DB;
 
 class PostsController extends Controller
 {
@@ -64,10 +66,12 @@ class PostsController extends Controller
         //
         //Populate the select(dropdowns)
         $department_options = Department::lists('name', 'id');
-        $project_options = Project::lists('name', 'id');
-        $source_options = Source::lists('name', 'id');
+        //$project_options = Project::lists('name', 'id');
+        $source_options = Source::lists('name', 'id');        
+        $staff_options = Staff::select('Id', DB::raw('CONCAT(first_name, " ", last_name) AS full_name'))->orderBy('first_name')->lists('full_name', 'Id');
+        
         // Show the page
-        return view('posts.forms.create', compact('department_options','project_options','source_options'));
+        return view('posts.forms.create', compact('department_options','source_options', 'staff_options'));
     }
 
     /**
@@ -96,18 +100,17 @@ class PostsController extends Controller
         $post -> achievement = (\Input::get('achievement') == 1) ? 1 : 0;
         $post -> testimonial = (\Input::get('testimonial') == 1) ? 1 : 0;
         $post -> other = (\Input::get('other') == 1) ? 1 : 0;
-        $post -> other_desc = $request->other_desc;
-		//$post -> source_id = $request->source_id;	    
-		$post -> source_id = ($request->source_id == null) ? null : $request->source_id;	    
-		//$post -> publish_date = $request->publish_date;
+        $post -> other_desc = $request->other_desc;   
+		$post -> source_id = ($request->source_id == null) ? null : $request->source_id;
 		$post -> publish_date = ($request->publish_date == null) ? null : date('Y-m-d', strtotime($request->publish_date));;    
 		$post -> writer_collaborator = $request->writer_collaborator;
-		//$post -> department_id = $request->department_id;
 		$post -> department_id = ($request->department_id == null) ? null : $request->department_id;
-		//$post -> project_id = $request->project_id;
-		$post -> project_id = ($request->project_id == null) ? null : $request->project_id;
+		//$post -> project_id = ($request->project_id == null) ? null : $request->project_id;
         $post -> notes = $request->notes;
         $post -> url = $request->url;
+        
+
+        
     
 		if ($request->file('attachment')) {
 			$file = $request->file('attachment');
@@ -134,6 +137,11 @@ class PostsController extends Controller
         
         
         $post -> save();
+        
+        
+         if (Input::get('staff_list')) {
+        	$post->staffs()->sync(Input::get('staff_list'));  
+        }    
         
 //        // Move the files
 //        if(Input::hasFile('attachment'))
@@ -171,14 +179,17 @@ class PostsController extends Controller
         //Populate the select(dropdowns)
         $department_options = Department::lists('name', 'id');
         $department_id = $post->department_id;
-        $project_options = Project::lists('name', 'id');
-        $project_id = $post->project_id;
+        //$project_options = Project::lists('name', 'id');
+        //$project_id = $post->project_id;
         
         $source_options = Source::lists('name', 'id');
         $source_id = $post->source_id;
         
+        $staff_options = Staff::select('Id', DB::raw('CONCAT(first_name, " ", last_name) AS full_name'))->orderBy('first_name')->lists('full_name', 'Id');  
+        $staff_selected =  $post->staffs->lists('id');
+        
         // Show the page        
-        return view('posts.forms.edit',compact('post','department_options','department_id','project_options','project_id','source_options','source_id'));
+        return view('posts.forms.edit',compact('post','department_options','department_id','source_options','source_id', 'staff_options', 'staff_selected'));
     }
 
     /**
@@ -214,17 +225,17 @@ class PostsController extends Controller
 	    $post -> testimonial = (\Input::get('testimonial') == 1) ? 1 : 0;
 	    $post -> other = (\Input::get('other') == 1) ? 1 : 0;
 	    $post -> other_desc = $request->other_desc;
-	    //$post -> source_id = $request->source_id;	    
 	    $post -> source_id = ($request->source_id == null) ? null : $request->source_id;	    
-		//$post -> publish_date = $request->publish_date;
         $post -> publish_date = ($request->publish_date == null) ? null : date('Y-m-d', strtotime($request->publish_date));;    
 	    $post -> writer_collaborator = $request->writer_collaborator;
-	    //$post -> department_id = $request->department_id;
 	    $post -> department_id = ($request->department_id == null) ? null : $request->department_id;
-	    //$post -> project_id = $request->project_id;
-	    $post -> project_id = ($request->project_id == null) ? null : $request->project_id;
+	    //$post -> project_id = ($request->project_id == null) ? null : $request->project_id;
 	    $post -> notes = $request->notes;
 	    $post -> url = $request->url;
+	    
+	     if (Input::get('staff_list')) {
+	    	$post->staffs()->sync(Input::get('staff_list'));  
+	    }    
 	
 //	    $attachment = "";
 //	    if(Input::hasFile('attachment'))
