@@ -12,6 +12,8 @@
                 <div class="  lockscreen-wrapper">
                 	
                 	<div class="login-logo">
+                	 <a href="{{ url('manage/posts') }}"><img src="{{ asset ("/assets/uncc_crown.png") }}"></a>
+                	
                 	  <a href="{{ url('manage/posts') }}"><b>MEDIA</b>MENTIONS</a>
                 	</div><!-- /.login-logo -->
                 
