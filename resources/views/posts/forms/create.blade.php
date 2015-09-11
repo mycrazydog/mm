@@ -22,7 +22,11 @@
 		@include('posts/forms/partials/_form')
 	</div><!-- /.box-body -->
 	<div class="box-footer">
-	  <button type="submit" class="btn btn-primary">Submit</button>
+	  
+		<p>Please review your entry and if you are satisfied hit submit to enter your media mention.​ Thank you for your help!</p>	
+		
+		<button type="submit" class="btn btn-primary">Submit</button>
+		
 	</div>
 	{!! Form::close() !!}
 </div>

@@ -9,6 +9,7 @@ use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Sentinel;
 
+
 class AdminUsersController extends Controller
 {
     /**
@@ -47,6 +48,52 @@ class AdminUsersController extends Controller
 
         return view('protected.admin.show_user')->withUser($user)->withUserRole($user_role);
     }
+    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        //
+        //Populate the select(dropdowns)
+        $roles = Sentinel::getRoleRepository()->all();
+        
+        $array_roles = [];
+
+        foreach ($roles as $role) {
+            $array_roles = array_add($array_roles, $role->id, $role->name);
+        }
+        
+        // Show the page
+        return view('protected.admin.create_user', ['roles' => $array_roles]);
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(AdminUsersEditFormRequest $request)
+    {
+        //          
+        $input = $request->only('email', 'password', 'first_name', 'last_name');
+
+        $user = Sentinel::registerAndActivate($input);  
+        
+        // Ge the role from dropdown
+        $account_type = $request->input('account_type');
+	    // Find the role using the role name
+	    $role = Sentinel::findRoleById($account_type);	
+	    // Assign the role to the users    	    
+		
+	    $role->users()->attach($user);
+	                    
+        return \Redirect::route('admin.profiles.index')
+            ->with('message', 'User (and password) has been created successfully!');
+    }    
 
     /**
      * Show the form for editing the specified resource.

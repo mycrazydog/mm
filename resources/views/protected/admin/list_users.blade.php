@@ -4,8 +4,13 @@
 
 @section('content')
 
-<h2>Registered Users</h2>
-    <p>Here you would normally search for users but since this is just a demo, I'm listing all of them.</p>
+<div class="pull-right">
+    <a href="{{ route('admin.profiles.create') }}" class="btn btn-small btn-success"><span class="glyphicon glyphicon-plus"></span> Create User</a>
+</div>
+    
+    
+    
+    
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
@@ -22,7 +27,7 @@
                 <td>{{ $user->id }}</td>
                 <td><a href="profiles/{{ $user->id }}">{{ $user->email }}</a> 
                 @if ($user->inRole($admin))
-                <span class="label label-success">{{ 'Admin' }}</span>
+                <span class="label label-warning">{{ 'Admin' }}</span>
                 @endif
                 </td>
                 <td>{{ $user->first_name}}</td>

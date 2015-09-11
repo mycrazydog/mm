@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth','standardUser']], function() {
 # Admin Routes
 Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('admin', ['as' => 'admin_dashboard', 'uses' => 'Admin\AdminController@getHome']);
-    Route::resource('admin/profiles', 'Admin\AdminUsersController', ['only' => ['index', 'show', 'edit', 'update', 'destroy']]);
+    Route::resource('admin/profiles', 'Admin\AdminUsersController');
 });
 
 # Authenticated Routes
